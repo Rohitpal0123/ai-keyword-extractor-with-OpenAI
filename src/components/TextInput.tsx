@@ -1,11 +1,25 @@
 import { useState } from "react";
 import { Textarea, Button, useToast } from "@chakra-ui/react";
+interface Props {
+  extractKeywords: (text: string) => void;
+}
 
-const TextInput = () => {
+const TextInput = ({ extractKeywords }: Props) => {
   const [text, setText] = useState("");
 
+  const toast = useToast();
   const submitText = () => {
-    console.log(text);
+    if (text === "") {
+      toast({
+        title: "Text field is empty",
+        description: "Please enter some text to extract keyword",
+        status: "error",
+        duration: 5000,
+        isClosable: false
+      });
+    } else {
+      extractKeywords(text);
+    }
   };
   return (
     <>
